@@ -8,6 +8,9 @@ import java.io.File;
 import java.io.IOException;
 import org.jsoup.parser.Tag;
 import java.util.ArrayList;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import org.apache.commons.io.FileUtils;
 
 
 class Feast{
@@ -19,13 +22,13 @@ class Feast{
 		Elements ele = doc.select("h3");
 		Element l = ele.first().parents().first();
 		
-
+		Gson gson = new GsonBuilder().setPrettyPrinting().create();;
 		ArrayList<Chapter> chapters = new ArrayList<Chapter>();
 		ArrayList<Book> books = new ArrayList<Book>();
 		ArrayList<Verse> verses = new ArrayList<Verse>();
 		int verse = 0; 
 		int chapter = 0;
-		BookOfMormon bom = null;
+		BookOfMormon<Book> bom = null;
 		String bookTitle = null;
 		String chapterTitle = null;
 
@@ -33,14 +36,24 @@ class Feast{
 			// book
 			if(e.tag() == Tag.valueOf("h2")){
 
-				if(chapter != 0) books.add(new Book(chapters, bookTitle));
+				if(chapter != 0){
+					Book<Chapter> b = new Book<Chapter>(chapters, bookTitle);
+					String bk = gson.toJson(b);
+					FileUtils.writeStringToFile(new File("build/resources/main/book/" + bookTitle +".json"), bk);
+					books.add(b);
+				} 
 				chapter = 0;
 				bookTitle = e.text();
 
 			// chapter
 			} else if(e.tag() == Tag.valueOf("h3")){
 				
-				if(verse != 0) chapters.add(new Chapter(verses, ++chapter, chapterTitle));
+				if(verse != 0){
+					Chapter<Verse> c = new Chapter<Verse>(verses, ++chapter, chapterTitle);
+					String ch = gson.toJson(c);
+					FileUtils.writeStringToFile(new File("build/resources/main/chapter/" + chapterTitle +".json"), ch);					
+					chapters.add(c);
+				} 
 				verse = 0;
 				chapterTitle = e.text();
 
@@ -48,17 +61,25 @@ class Feast{
 			// verse
 			} else if(e.tag() == Tag.valueOf("p")){
 				// put in paragraph
-				verses.add(new Verse(e.text(), ++verse));
+				if(!(e.text().matches("\\[[0-9]*\\]"))) verses.add(new Verse(e.text(), ++verse));
 			
 			}
 
 		}
 
 		// final addition
-		chapters.add(new Chapter(verses, ++chapter, chapterTitle));
-		books.add(new Book(chapters, bookTitle));
-		bom = new BookOfMormon(books);
-
+		chapters.add(new Chapter<Verse>(verses, ++chapter, chapterTitle));
+		Chapter<Verse> c = new Chapter<Verse>(verses, chapter, chapterTitle);
+		String ch = gson.toJson(c);
+		FileUtils.writeStringToFile(new File("build/resources/main/chapter/" + chapterTitle +".json"), ch);
+		chapters.add(c);
+		Book<Chapter> b = new Book<Chapter>(chapters, bookTitle);
+		String bk = gson.toJson(b);
+		FileUtils.writeStringToFile(new File("build/resources/main/book/" + bookTitle +".json"), bk);
+		books.add(b);
+		bom = new BookOfMormon<Book>(books);
+		String mormon = gson.toJson(bom);
+		FileUtils.writeStringToFile(new File("build/resources/main/book_of_mormon_1980.json"), mormon);
 		
 	}
 	

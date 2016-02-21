@@ -5,7 +5,7 @@ import java.lang.Integer;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-final public class Chapter<E> implements UrimAndThummim<String>{
+final public class Chapter<E> implements UrimAndThummim{
 	
 	private List<E> verses;
 	private Integer chapter;
@@ -17,14 +17,12 @@ final public class Chapter<E> implements UrimAndThummim<String>{
 		this.title = title;
 	}
 
-	public String serialize(){
- 		GsonBuilder builder = new GsonBuilder();
-        Gson gson = builder.create();
-        return gson.toJson(verses);
-	}
-
 	public Integer size(){
 		return verses.size();
+	}
+
+	public String name(){
+		return title;
 	}
 
 }

@@ -1,6 +1,6 @@
 package com.dave.church;
 
-public interface UrimAndThummim<E>{
-	public E serialize();
+public interface UrimAndThummim{
 	public Integer size();
+	public String name();
 }

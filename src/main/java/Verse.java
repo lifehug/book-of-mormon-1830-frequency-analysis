@@ -10,6 +10,6 @@ final public class Verse{
 	public Verse(String text, Integer verse){
 		this.verse = verse;
 		this.text = text;
+		this.verse = verse;
 	}
-	
 }
