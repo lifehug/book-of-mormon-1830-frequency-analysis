@@ -20,8 +20,8 @@ class Feast{
 
 	public static void main(String [] args) throws IOException{
 
-		//journal1832();
-		bookOfMormon1830();
+		journal1832();
+		//bookOfMormon1830();
 		
 	}
 
@@ -29,7 +29,7 @@ class Feast{
 		// 2 - 106
 		StringBuffer string;
 		JsonParser parser = new JsonParser();
-		for(int page = 2; page <= 106; page++){
+		for(int page = 2; page <= 94; page++){
 			string = new StringBuffer();
 			// create the proper api request
 			String url = "http://josephsmithpapers.org/old/api/media-viewer/page?uri=journal-1832-1834&page=" + page + "&pageonly=true&highlight=";
@@ -40,7 +40,7 @@ class Feast{
 			
 			//parse html for the prophets writings
 			Document doc = Jsoup.parseBodyFragment(html.getAsString()); 
-			Elements ele = doc.select("span.josephswriting");
+			Elements ele = doc.select("div.indent.wasptag");
 			for(Element e : ele){
 				string.append(e.text() + " ");
 			}
