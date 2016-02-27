@@ -11,7 +11,7 @@ final public class UrimAndThummim{
 
 	public static void main(String args[]){
 
-		SparkConf conf = new SparkConf().setAppName("Book of Mormon");
+		SparkConf conf = new SparkConf().setAppName("Book of Mormon").setMaster("local");;
     	JavaSparkContext sc = new JavaSparkContext(conf);
 
     	// parse everything into an RDD
@@ -19,7 +19,8 @@ final public class UrimAndThummim{
 		System.out.println(words.count());
 		HashingTF tf = new HashingTF(10000000);
 		Vector hashed = tf.transform(Arrays.asList(words));
-		System.out.println(hashed.size());
+		System.out.println(hashed.numActives());
+
 
 	}
 
