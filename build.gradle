@@ -15,9 +15,18 @@ task run(type:JavaExec) {
     main = 'com.dave.church.Feast'
 }
 
+task analyze(type:JavaExec) {
+   classpath = sourceSets.main.runtimeClasspath
+    main = 'com.dave.church.UrimAndThummim'
+}
+
 dependencies {
    
     compile 'org.jsoup:jsoup:1.8.3'
     compile 'com.google.code.gson:gson:2.6.1'
     compile 'commons-io:commons-io:2.4'
+    compile 'org.apache.spark:spark-core_2.10:1.6.+'
+    compile 'org.apache.spark:spark-mllib_2.10:1.6.+'
+
+
 }
