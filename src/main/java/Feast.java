@@ -21,7 +21,7 @@ class Feast{
 	public static void main(String [] args) throws IOException{
 
 		journal1832();
-		//bookOfMormon1830();
+		bookOfMormon1830();
 		
 	}
 
@@ -45,8 +45,8 @@ class Feast{
 				string.append(e.text() + " ");
 			}
 
-			String entry = "{ \"page\" : "+ page + ", \"entry\" : \"" + string.toString() + "\"}";
-			FileUtils.writeStringToFile(new File("build/resources/main/journal_1832_1834/" + page + "/writtings.json"), entry);
+			String entry = string.toString();
+			FileUtils.writeStringToFile(new File("build/resources/main/journal_1832_1834/" + page + ".txt"), entry);
 		}
 	}
 
@@ -71,8 +71,7 @@ class Feast{
 			}
 			//get rid of page numbers
 			String entry = string.toString().replaceAll("\\[p.*\\]","");
-			entry = "{ \"page\" : "+ page + ", \"entry\" : \"" + entry + "\"}";
-			FileUtils.writeStringToFile(new File("build/resources/main/book_of_mormon_1830/" + page + "/writtings.json"), entry);
+			FileUtils.writeStringToFile(new File("build/resources/main/book_of_mormon_1830/" + page + ".txt"), entry);
 		}
 	}
 	
