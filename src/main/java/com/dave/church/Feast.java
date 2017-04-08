@@ -31,12 +31,12 @@ class Feast{
 		JsonParser parser = new JsonParser();
 
 			string = new StringBuffer();
-			//String url = "http://www.josephsmithpapers.org/transcript/journal-1832-1834?nocache";
+			// String url = "http://www.josephsmithpapers.org/transcript/journal-1832-1834?nocache";
 			String url = "http://www.josephsmithpapers.org/transcript/journal-1835-1836?nocache";			
 		
 			String json = Jsoup.connect(url).ignoreContentType(true).execute().body();
 	
-			//parse html for the prophets writings
+			// parse html for the prophets writings
 			Document doc = Jsoup.parseBodyFragment(json); 
 			Elements ele = doc.select("div.indent.wasptag");
 
